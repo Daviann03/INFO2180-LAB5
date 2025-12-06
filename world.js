@@ -1,23 +1,27 @@
 window.onload = function () {
+    const lookupBtn = document.getElementById("lookup");
+    const lookupCitiesBtn = document.getElementById("lookup-cities");
+    const resultDiv = document.getElementById("result");
 
-    let lookupButton = document.getElementById("lookup");
-    let resultDiv = document.getElementById("result");
-    let countryInput = document.getElementById("country");
+    // Lookup countries
+    lookupBtn.addEventListener("click", function () {
+        let country = document.getElementById("country").value;
 
-    lookupButton.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        let country = countryInput.value;
-        let url = "world.php?country=" + encodeURIComponent(country);
-
-        fetch(url)
+        fetch(`world.php?country=${country}`)
             .then(response => response.text())
             .then(data => {
                 resultDiv.innerHTML = data;
-            })
-            .catch(error => {
-                resultDiv.innerHTML = "Error: " + error;
             });
     });
 
+    // Lookup cities
+    lookupCitiesBtn.addEventListener("click", function () {
+        let country = document.getElementById("country").value;
+
+        fetch(`world.php?country=${country}&lookup=cities`)
+            .then(response => response.text())
+            .then(data => {
+                resultDiv.innerHTML = data;
+            });
+    });
 };
